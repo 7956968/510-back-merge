@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.DeviceGroupMapper">
+    <resultMap id="BaseResultMap" type="com.warmnut.bean.DeviceGroup">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="pid" jdbcType="INTEGER" property="pid" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="create_user" jdbcType="INTEGER" property="createUser" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="update_user" jdbcType="INTEGER" property="updateUser" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,pid,create_time,create_user,update_time,update_user
+    </sql>
+
+    <insert id="insertSelective"
+            parameterType="com.warmnut.bean.DeviceGroup">
+        insert into device_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="name != null">name,</if>
+            <if test="pid != null">pid,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="pid != null">#{pid,jdbcType=INTEGER},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="createUser != null">#{createUser,jdbcType=INTEGER},</if>
+            <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		delete from device_group
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--删除分组，并且将该分组下的设备都设为无分组设备-->
+    <delete id="deleteAll" parameterType="java.util.List">
+		delete from device_group
+		where id in
+        <foreach collection="idList" item="item" index="index" open="("
+                 separator="," close=")">
+            #{item, jdbcType=INTEGER}
+        </foreach>
+        ;
+        delete from device_group_relation
+        where group_id in
+        <foreach collection="idList" item="item" index="index" open="("
+                 separator="," close=")">
+            #{item, jdbcType=INTEGER}
+        </foreach>
+        ;
+	</delete>
+
+    <delete id="deleteRelationByDeviceId" parameterType="java.lang.Integer">
+        delete from device_group_relation
+        where device_id = #{deviceId,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteRelationByDeviceIdList" parameterType="java.util.List">
+        delete from device_group_relation
+        where device_id in
+        <foreach collection="list" item="item" index="index" open="("
+                 separator="," close=")">
+            #{item, jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.warmnut.bean.DeviceGroup">
+        update device_group
+        <set>
+            <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
+            <if test="pid != null">pid=#{pid,jdbcType=INTEGER},</if>
+            <!--<if test="createTime != null">create_time=#{createTime,jdbcType=TIMESTAMP},</if>-->
+            <!--<if test="createUser != null">create_user=#{createUser,jdbcType=INTEGER},</if>-->
+            <if test="updateTime != null">update_time=#{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">update_user=#{updateUser,jdbcType=INTEGER},</if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from device_group
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--获取所有分组-->
+    <select id="selectAll" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from device_group
+        where 1 = 1
+        <!--<if test="keyword != null and keyword != ''">-->
+        <!--    AND name LIKE CONCAT('%',#{keyword},'%')-->
+        <!--</if>-->
+        order by id
+    </select>
+
+    <!-- 通过设备id获取分组 -->
+    <select id="selectByDeviceId"
+            parameterType="java.lang.Integer"
+            resultType="java.lang.Integer"
+    >
+        select
+        group_id
+        from device_group_relation
+        where device_id = #{deviceId,jdbcType=INTEGER}
+    </select>
+
+    <!--批量删除关系-->
+    <delete id="removeRelation" parameterType="java.util.List">
+        delete from device_group_relation
+        where device_id in
+        <foreach collection="deviceIdList" item="item" index="index" open="("
+                 separator="," close=")">
+            #{item, jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <!--批量插入关系，要求groupId不为null-->
+    <!--<insert id="insertRelation" parameterType="java.util.Map">-->
+    <!--    insert into device_group_relation-->
+    <!--    (device_id,group_id,create_time,create_user,update_time,update_user)-->
+    <!--    values-->
+    <!--    <foreach collection="deviceIdList" item="item" index="index" open="("-->
+    <!--             separator="),(" close=")">-->
+    <!--        #{item,jdbcType=INTEGER},#{groupId,jdbcType=INTEGER},-->
+    <!--        #{createTime,jdbcType=TIMESTAMP},#{createUser,jdbcType=INTEGER},-->
+    <!--        #{updateTime,jdbcType=TIMESTAMP},#{updateUser,jdbcType=INTEGER}-->
+    <!--    </foreach>-->
+    <!--</insert>-->
+
+    <!--批量插入关系，要求deviceIdList,groupIdList都不为空-->
+    <insert id="insertRelation" >
+        insert into device_group_relation
+        (device_id,group_id,create_time,create_user,update_time,update_user)
+        values
+        <foreach collection="deviceIdList" item="item" index="index" separator=",">
+            <foreach collection="groupIdList" item="item2" index="index2"  open="(" separator="),(" close=")">
+                #{item,jdbcType=INTEGER},#{item2,jdbcType=INTEGER},
+                CURRENT_TIMESTAMP,#{createUser,jdbcType=INTEGER},
+                CURRENT_TIMESTAMP,#{createUser,jdbcType=INTEGER}
+            </foreach>
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.UserManageMapper">
+    <resultMap id="BaseResultMap" type="com.warmnut.bean.UserManage">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="job_number" jdbcType="VARCHAR" property="jobNumber" />
+        <result column="position" jdbcType="VARCHAR" property="position" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="gender" jdbcType="INTEGER" property="gender" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+        <result column="item_status" jdbcType="BOOLEAN" property="itemStatus" />
+        <result column="deleteable" jdbcType="BIT" property="deleteable" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+
+    </resultMap>
+
+    <!-- 用于统计查询记录总数 -->
+    <resultMap id="count" type="java.lang.Integer">
+        <result column="count" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id,role_id,job_number,position,name,
+-- 		password,
+		gender,phone,email,department_id,
+		last_login_time,item_status,deleteable,create_time,delete_time,modify_time
+	</sql>
+
+    <insert id="insertSelective"
+            parameterType="com.warmnut.bean.UserManage">
+        insert into admin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="roleId != null">role_id,</if>
+            <if test="jobNumber != null">job_number,</if>
+            <if test="position != null">position,</if>
+            <if test="name != null">name,</if>
+            <if test="password != null">password,</if>
+            <if test="gender != null">gender,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="departmentId != null">department_id,</if>
+            <if test="lastLoginTime != null">last_login_time,</if>
+            <if test="itemStatus != null">item_status,</if>
+            <if test="deleteable != null">deleteable,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="deleteTime != null">delete_time,</if>
+            <if test="modifyTime != null">modify_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="roleId != null">#{roleId,jdbcType=INTEGER},</if>
+            <if test="jobNumber != null">#{jobNumber,jdbcType=VARCHAR},</if>
+            <if test="position != null">#{position,jdbcType=VARCHAR},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+            <if test="gender != null">#{gender,jdbcType=VARCHAR},</if>
+            <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>
+            <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+            <if test="departmentId != null">#{departmentId,jdbcType=INTEGER},</if>
+            <if test="lastLoginTime != null">#{lastLoginTime,jdbcType=TIMESTAMP},</if>
+            <if test="itemStatus != null">#{itemStatus,jdbcType=INTEGER},</if>
+            <if test="deleteable != null">#{deleteable,jdbcType=BIT},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="deleteTime != null">#{deleteTime,jdbcType=TIMESTAMP},</if>
+            <if test="modifyTime != null">#{modifyTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <!--删除仅仅是修改状态-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		update admin
+		set item_status=0,delete_time=CURRENT_TIMESTAMP
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <update id="deleteAll" parameterType="java.util.List">
+		update admin
+		set item_status=0,delete_time=CURRENT_TIMESTAMP
+		where id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.warmnut.bean.UserManage">
+        update admin
+        <set>
+            <if test="roleId != null">role_id=#{roleId,jdbcType=INTEGER},</if>
+            <if test="jobNumber != null">job_number=#{jobNumber,jdbcType=VARCHAR},</if>
+            <if test="position != null">position=#{position,jdbcType=VARCHAR},</if>
+            <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
+            <if test="password != null">password=#{password,jdbcType=VARCHAR},</if>
+            <if test="gender != null">gender=#{gender,jdbcType=VARCHAR},</if>
+            <if test="phone != null">phone=#{phone,jdbcType=VARCHAR},</if>
+            <if test="email != null">email=#{email,jdbcType=VARCHAR},</if>
+            <if test="departmentId != null">department_id=#{departmentId,jdbcType=INTEGER},</if>
+            <if test="lastLoginTime != null">last_login_time=#{lastLoginTime,jdbcType=TIMESTAMP},</if>
+            <if test="itemStatus != null">item_status=#{itemStatus,jdbcType=INTEGER},</if>
+            <if test="deleteable != null">deleteable=#{deleteable,jdbcType=BIT},</if>
+            <!--<if test="createTime != null">create_time=#{createTime,jdbcType=TIMESTAMP},</if>-->
+            <if test="deleteTime != null">delete_time=#{deleteTime,jdbcType=TIMESTAMP},</if>
+            <if test="modifyTime != null">modify_time=#{modifyTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from admin
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from admin
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND CONCAT_WS(',',job_number, position, name, phone, email) LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="itemStatus!=null">
+            AND item_status = ${itemStatus}
+        </if>
+    </select>
+
+    <select id="countByJobNumber" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from admin
+        where job_number = #{jobNumber,jdbcType=VARCHAR}
+    </select>
+</mapper>

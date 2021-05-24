@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.warmnut.bean.Role">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="changeable" jdbcType="BIT" property="changeable" />
+        <result column="deleteable" jdbcType="BIT" property="deleteable" />
+        <result column="hide" jdbcType="BIT" property="hide" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id, name, description, create_time, modify_time, changeable, deleteable, hide
+	</sql>
+
+    <insert id="insertSelective"
+            parameterType="com.warmnut.bean.Role"
+            useGeneratedKeys="true"
+    >
+        insert into role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="changeable != null">
+                changeable,
+            </if>
+            <if test="deleteable != null">
+                deleteable,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="changeable != null">
+                #{changeable,jdbcType=BIT},
+            </if>
+            <if test="deleteable != null">
+                #{deleteable,jdbcType=BIT},
+            </if>
+            <if test="hide != null">
+                #{hide,jdbcType=BIT},
+            </if>
+        </trim>
+        <!-- 返回数据的id -->
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		delete from role
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <delete id="deleteAll" parameterType="java.util.List">
+        delete from role
+        where id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.warmnut.bean.Role">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <!--<if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>-->
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="changeable != null">
+                changeable = #{changeable,jdbcType=BIT},
+            </if>
+            <if test="deleteable != null">
+                deleteable = #{deleteable,jdbcType=BIT},
+            </if>
+            <if test="hide != null">
+                hide = #{hide,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap"
+            parameterType="com.warmnut.util.PageRequest">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND CONCAT_WS(',',name,description) LIKE CONCAT('%',#{keyword},'%')
+        </if>
+    </select>
+
+    <select id="countByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from role
+        where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectLast" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        order by id desc
+        limit 1
+    </select>
+
+
+</mapper>

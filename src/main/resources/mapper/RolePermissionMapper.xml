@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.RolePermissionMapper">
+    <resultMap id="BaseResultMap" type="com.warmnut.bean.RolePermission">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
+    </resultMap>
+
+    <!--  Permission -->
+    <resultMap id="PermissionResultMap"
+               type="com.warmnut.bean.Permission">
+        <!--<id column="id" jdbcType="INTEGER" property="rpId" />-->
+        <!--<result column="role_id" jdbcType="INTEGER" property="roleId" />-->
+        <!--<result column="permission_id" jdbcType="INTEGER" property="id" />-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="pid" jdbcType="INTEGER" property="pid" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="component" jdbcType="VARCHAR" property="component" />
+        <result column="redirect" jdbcType="VARCHAR" property="redirect" />
+        <result column="alwaysShow" jdbcType="BIT" property="alwaysshow" />
+        <result column="clickAble" jdbcType="BIT" property="clickable" />
+        <result column="hidden" jdbcType="BIT" property="hidden" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="noCache" jdbcType="BIT" property="nocache" />
+        <result column="icon" jdbcType="VARCHAR" property="icon" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+        <result column="method" jdbcType="VARCHAR" property="method" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id, role_id, permission_id
+	</sql>
+
+
+
+    <insert id="insertSelective"
+            parameterType="com.warmnut.bean.RolePermission">
+        insert into role_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="permissionId != null">
+                permission_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="roleId != null">
+                #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="permissionId != null">
+                #{permissionId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--
+        批量插入role_permission
+        id为null,所以不写id，
+        roleId一定不为null，所以不写if
+    -->
+    <insert id="insertAll">
+        insert into role_permission
+        (role_id, permission_id)
+        values
+        <foreach collection="pmsIdList" item="item" index="index" open="("
+                 separator="),(" close=")">
+            #{roleId, jdbcType=INTEGER}, #{item, jdbcType=INTEGER}
+        </foreach>
+    </insert>
+
+    <!--  通过ID删除RP  -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		delete from role_permission
+		where 1=1 and
+		id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--  通过roleId删除RP  -->
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        delete from role_permission
+		where 1=1 and
+		role_id =
+		#{roleId,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteByRoleIdList" parameterType="java.util.List">
+        delete from role_permission
+        where 1=1 and
+        role_id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" separator="," close=")">
+            #{item, jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <!--<delete id="deleteAll">-->
+	<!--	delete from role_permission-->
+	<!--	where 1=1-->
+	<!--	and role_id = #{roleId,jdbcType=INTEGER}-->
+	<!--	and permission_id in-->
+    <!--    <foreach collection="pmsIdList" item="item" index="index" open="("-->
+    <!--             separator="," close=")">-->
+    <!--        #{item, jdbcType=INTEGER}-->
+    <!--    </foreach>-->
+	<!--</delete>-->
+
+    <select id="selectById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role_permission
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByRoleId" parameterType="java.lang.Integer"
+            resultMap="PermissionResultMap">
+        select
+        *
+        from permission sp
+        JOIN role_permission srp
+        on srp.permission_id = sp.id
+        AND
+        srp.role_id = #{roleId,jdbcType=INTEGER}
+        ORDER BY sp.sort_order
+    </select>
+
+    <!-- 通过RoleId, 只获取PmsId -->
+    <select id="selectPmsIdByRoleId" parameterType="java.lang.Integer" resultType="int">
+        select sp.id
+        from permission sp
+        JOIN role_permission srp
+        on srp.permission_id = sp.id
+        AND
+        srp.role_id = #{roleId,jdbcType=INTEGER}
+        ORDER BY sp.id
+    </select>
+
+
+<!--    <select id="selectByRoleId" resultMap="RPResultMap">-->
+<!--		select-->
+<!--        &lt;!&ndash;<include refid="RPResultMap" />&ndash;&gt;-->
+<!--        srp.id, roleId, permission_id, pid, path,sortOrder,type,component,redirect,-->
+<!--        hidden,alwaysshow,clickable,name,title,nocache,icon,method,createTime-->
+<!--		from role_permission srp-->
+<!--		JOIN permission sp-->
+<!--		on srp.permission_id = sp.id-->
+<!--		AND-->
+<!--		srp.role_id = #{roleId,jdbcType=INTEGER}-->
+<!--		ORDER BY sp.sort_order-->
+<!--	</select>-->
+
+</mapper>

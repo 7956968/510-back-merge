@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.DeviceMapper">
+    <resultMap id="BaseResultMap" type="com.warmnut.bean.Device">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="manufacturers" jdbcType="VARCHAR" property="manufacturers" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="ip" jdbcType="VARCHAR" property="ip" />
+        <result column="port" jdbcType="VARCHAR" property="port" />
+        <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="rtsp_format" jdbcType="VARCHAR" property="rtspFormat" />
+        <result column="device.create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="device.create_user" jdbcType="INTEGER" property="createUser" />
+        <result column="device.update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="device.update_user" jdbcType="INTEGER" property="updateUser" />
+    </resultMap>
+
+    <!--摄像头结果集-->
+    <resultMap id="CameraResultMap" type="com.warmnut.bean.MyCamera">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="manufacturers" jdbcType="VARCHAR" property="manufacturers" />
+        <result column="device.name" jdbcType="VARCHAR" property="name" />
+        <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="ip" jdbcType="VARCHAR" property="ip" />
+        <result column="port" jdbcType="VARCHAR" property="port" />
+        <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="rtsp_format" jdbcType="VARCHAR" property="rtspFormat" />
+        <!--
+        <result column="device.create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="device.create_user" jdbcType="INTEGER" property="createUser" />
+        <result column="device.update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="device.update_user" jdbcType="INTEGER" property="updateUser" />
+        -->
+        <collection property="channels" resultMap="ChannelResultMap" />
+    </resultMap>
+
+    <!--摄像头通道结果集-->
+    <resultMap id="ChannelResultMap" type="com.warmnut.bean.Channel">
+        <id column="channel_id" jdbcType="INTEGER" property="id"/>
+        <!--<result column="device_id" jdbcType="INTEGER" property="deviceId" />-->
+        <result column="channel_name" jdbcType="VARCHAR" property="name" />
+        <result column="channel_serial_number" jdbcType="VARCHAR" property="serialNumber" />
+        <result column="channel_number" jdbcType="INTEGER" property="number" />
+        <!--
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="create_user" jdbcType="INTEGER" property="createUser" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="update_user" jdbcType="INTEGER" property="updateUser" />
+        -->
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		device.id as id,manufacturers,device.name as name,device.serial_number as serial_number,type,
+		ip,port,login_name,password,rtsp_format,
+		device.create_time,device.create_user,device.update_time,device.update_user
+	</sql>
+
+    <!--插入设备-->
+    <insert id="insertSelective"
+            parameterType="com.warmnut.bean.Device"
+            useGeneratedKeys="true"
+    >
+        insert into device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="manufacturers != null">manufacturers,</if>
+            <if test="name != null">name,</if>
+            <if test="serialNumber != null">serial_number,</if>
+            <if test="type != null">type,</if>
+            <if test="ip != null">ip,</if>
+            <if test="port != null">port,</if>
+            <if test="loginName != null">login_name,</if>
+            <if test="password != null">password,</if>
+            <if test="rtspFormat != null">rtsp_format,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="manufacturers != null">#{manufacturers,jdbcType=VARCHAR},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="serialNumber != null">#{serialNumber,jdbcType=VARCHAR},</if>
+            <if test="type != null">#{type,jdbcType=VARCHAR},</if>
+            <if test="ip != null">#{ip,jdbcType=VARCHAR},</if>
+            <if test="port != null">#{port,jdbcType=VARCHAR},</if>
+            <if test="loginName != null">#{loginName,jdbcType=VARCHAR},</if>
+            <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+            <if test="rtspFormat != null">#{rtspFormat,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="createUser != null">#{createUser,jdbcType=INTEGER},</if>
+            <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=INTEGER},</if>
+        </trim>
+        <!-- 返回数据的id -->
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <!--删除设备(通过id)-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		delete from device
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--批量删除设备（通过id列表）-->
+    <delete id="deleteAll" parameterType="java.util.List">
+        delete from device
+        where id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <!--修改设备-->
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.warmnut.bean.Device">
+        update device
+        <set>
+            <if test="manufacturers != null">manufacturers=#{manufacturers,jdbcType=VARCHAR},</if>
+            <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
+            <if test="serialNumber != null">serial_number=#{serialNumber,jdbcType=VARCHAR},</if>
+            <if test="type != null">type=#{type,jdbcType=VARCHAR},</if>
+            <if test="ip != null">ip=#{ip,jdbcType=VARCHAR},</if>
+            <if test="port != null">port=#{port,jdbcType=VARCHAR},</if>
+            <if test="loginName != null">login_name=#{loginName,jdbcType=VARCHAR},</if>
+            <if test="password != null">password=#{password,jdbcType=VARCHAR},</if>
+            <if test="rtspFormat != null">rtsp_format=#{rtspFormat,jdbcType=VARCHAR},</if>
+
+            <if test="updateTime != null">update_time=#{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateUser != null">update_user=#{updateUser,jdbcType=INTEGER},</if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--通过id查询设备-->
+    <select id="selectById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from device
+        where device.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--  查询所有设备 -->
+    <select id="selectAll" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from device
+        <if test="groupId != null">
+            join device_group_relation dgr
+            on(device.id=dgr.device_id and dgr.group_id=#{groupId})
+        </if>
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND CONCAT_WS(',',device.id,manufacturers,name,serial_number,type,ip,port,login_name,device.create_user,device.update_user)
+            LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="type!=null and type != ''">
+            AND type=#{type}
+        </if>
+    </select>
+
+    <!--获取所有的摄像头，一次性获取过多，后续需要修改-->
+    <select id="selectAllCameras" resultMap="CameraResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,channel.id as channel_id
+        ,channel.name as channel_name
+        ,channel.serial_number as channel_serial_number
+        ,channel.number as channel_number
+        from device
+        inner join channel
+        on channel.device_id = device.id
+    </select>
+
+    <!--通过idList查找摄像头-->
+    <select id="selectCameras" resultMap="CameraResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        ,channel.id as channel_id
+        ,channel.name as channel_name
+        ,channel.serial_number as channel_serial_number
+        ,channel.number as channel_number
+        from device
+        inner join channel
+        on channel.device_id = device.id
+        where device.id in
+        <foreach collection="idList" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+
+    </select>
+
+    <!--通过idList查找摄像头-->
+    <select id="selectCamerasByAlarmId" resultMap="CameraResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,channel.id as channel_id
+        ,channel.name as channel_name
+        ,channel.serial_number as channel_serial_number
+        ,channel.number as channel_number
+        from device
+        inner join channel
+        on channel.device_id = device.id
+        inner join device_linkage
+        on device.id = device_linkage.device_id
+        where device_linkage.alarm_id = #{alarmId,jdbcType=INTEGER}
+    </select>
+
+    <!--查找不在分组中的设备-->
+    <select id="selectNotInGroup" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from device
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND CONCAT_WS(',',device.id,manufacturers,name,serial_number,type,ip,port,login_name,device.create_user,device.update_user)
+            LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="type!=null and type != ''">
+            AND type=#{type}
+        </if>
+        AND device.id not in
+        (select device_id from device_group_relation)
+        
+    </select>
+
+    <!--报警设备与摄像头联动
+        包括：插入，删除，查找
+    -->
+
+    <!--添加单个联动信息-->
+    <insert id="insertLinkage" parameterType="java.util.Map">
+        insert into device_linkage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">device_id,</if>
+            <if test="alarmId != null">alarm_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">#{deviceId,jdbcType=INTEGER},</if>
+            <if test="alarmId != null">#{alarmId,jdbcType=INTEGER},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="createUser != null">#{createUser,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <!--批量添加联动信息-->
+    <insert id="insertAllLinkage" parameterType="java.util.Map">
+        insert into device_linkage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            device_id,
+            <if test="alarmId != null">alarm_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+        </trim>
+        values
+        <foreach collection="deviceIdList" item="item" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item, jdbcType=INTEGER},
+                <if test="alarmId != null">#{alarmId,jdbcType=INTEGER},</if>
+                <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+                <if test="createUser != null">#{createUser,jdbcType=INTEGER},</if>
+            </trim>
+        </foreach>
+    </insert>
+
+    <!--通过id删除Linkage-->
+    <delete id="deleteLinkage" >
+        delete from device_linkage
+        where device_id=#{deviceId,jdbcType=INTEGER}
+        and alarm_id=#{alarmId,jdbcType=INTEGER}
+    </delete>
+
+    <!--批量删除联动-->
+    <delete id="deleteLinkageByIdList" parameterType="java.util.List">
+        delete from device_linkage
+        where id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <select id="selectLinkage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from device
+        join device_linkage
+        on device_linkage.alarm_id=#{alarmId,jdbcType=INTEGER}
+            and device.id = device_linkage.device_id
+    </select>
+</mapper>

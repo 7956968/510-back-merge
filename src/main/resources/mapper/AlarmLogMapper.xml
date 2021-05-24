@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.AlarmLogMapper">
+    <resultMap id="BaseResultMap" type="com.warmnut.bean.log.AlarmLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="location" jdbcType="VARCHAR" property="location" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="handle_id" jdbcType="INTEGER" property="handleId" />
+        <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
+        <result column="alarm_time" jdbcType="TIMESTAMP" property="alarmTime" />
+    </resultMap>
+
+    <resultMap id="AlarmHandleLogMap" type="com.warmnut.bean.log.AlarmHandleLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="user_name" jdbcType="TIMESTAMP" property="userName" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id,name,location,status,description,handle_id,record_time,alarm_time
+	</sql>
+
+    <sql id="AlarmHandleLog_Column_List">
+		id,user_id,type,description,create_time
+	</sql>
+
+    <!--插入-->
+    <insert id="insertSelective"
+            parameterType="com.warmnut.bean.log.AlarmLog">
+        insert into alarm_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">id,</if>-->
+            <if test="name != null">name,</if>
+            <if test="location != null">location,</if>
+            <if test="status != null">status,</if>
+            <if test="description != null">description,</if>
+            <if test="handleId != null">handle_id,</if>
+            <if test="recordTime != null">record_time,</if>
+            <if test="alarmTime != null">alarm_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">id,</if>-->
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="location != null">#{location,jdbcType=VARCHAR},</if>
+            <if test="status != null">#{status,jdbcType=VARCHAR},</if>
+            <if test="description != null">#{description,jdbcType=VARCHAR},</if>
+            <if test="handleId != null">#{handleId,jdbcType=INTEGER},</if>
+            <if test="recordTime != null">#{recordTime,jdbcType=TIMESTAMP},</if>
+            <if test="alarmTime != null">#{alarmTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <!--删除-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		delete from alarm_log
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <!--批量删除-->
+    <delete id="deleteAll" parameterType="java.util.List">
+        delete from alarm_log
+        where id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <!--查询-->
+    <select id="selectAll" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from alarm_log
+        where 1 = 1
+        <!-- 关键字 -->
+        <if test="keyword != null and keyword != ''">
+            AND CONCAT_WS(',',name,location,description) LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <!--- 筛选时间 -->
+        <if test="dateFrom!=null and dateFrom != ''">
+            AND record_time between #{dateFrom,jdbcType=VARCHAR} and '2100-01-01 00:00:01'
+        </if>
+        <if test="status!=null and status!=''">
+            AND status=#{status,jdbcType=VARCHAR}
+        </if>
+        <!--在服务层设置了分页参数，此处不要加结束符';'-->
+    </select>
+
+    <!--插入报警处理日志-->
+    <insert id="insertAlarmHandleLog"
+            parameterType="com.warmnut.bean.log.AlarmHandleLog">
+        insert into alarm_handle_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">id,</if>-->
+            <if test="userId != null">user_id,</if>
+            <if test="type != null">type,</if>
+            <if test="description != null">description,</if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">id,</if>-->
+            <if test="userId != null">#{userId,jdbcType=INTEGER},</if>
+            <if test="type != null">#{type,jdbcType=VARCHAR},</if>
+            <if test="description != null">#{description,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="createTime == null">CURRENT_TIMESTAMP,</if>
+        </trim>
+        <!-- 数据的id映射到对象上 -->
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+
+    <!--通过id查看处理日志-->
+    <select id="selectAlarmHandleLogById"
+            parameterType="java.lang.Integer"
+            resultMap="AlarmHandleLogMap">
+        select
+        alarm_handle_log.id as id,user_id,type,description,alarm_handle_log.create_time as create_time, admin.name as user_name
+        from alarm_handle_log
+        left join admin on admin.id=alarm_handle_log.user_id
+        where alarm_handle_log.id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <!--设置报警日志为"已处理"-->
+    <update id="setAlarmLogHandled">
+        update alarm_log
+        set status = '已处理',
+            handle_id = #{handleId, jdbcType=INTEGER}
+        where id in
+        <foreach collection="alarmLogIdList" item="item" index="index" open="("
+                 separator="," close=")">
+            #{item, jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <!--报警处理日志的（批量查，删，批量删除）暂时不开放-->
+    <!--
+    <delete id="deleteAlarmHandleLogById" parameterType="java.lang.Integer">
+		delete from alarm_handle_log
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <delete id="deleteAllAlarmHandleLog" parameterType="java.util.List">
+        delete from alarm_handle_log
+        where id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+    <select id="selectAllAlarmHandleLog" resultMap="AlarmHandleLogMap"
+            parameterType="com.warmnut.util.PageRequest">
+        select
+        <include refid="AlarmHandleLog_Column_List"/>
+        from alarm_handle_log
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND CONCAT_WS(',',user_id,type,description) LIKE CONCAT('%',#{keyword},'%')
+        </if>
+    </select>
+    -->
+
+</mapper>

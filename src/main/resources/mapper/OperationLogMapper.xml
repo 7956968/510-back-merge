@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.OperationLogMapper">
+	<resultMap id="BaseResultMap"
+		type="com.warmnut.bean.OperationLog">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="log_type" jdbcType="VARCHAR" property="logType" />
+		<result column="log_name" jdbcType="VARCHAR" property="logName" />
+		<result column="user_id" jdbcType="INTEGER" property="userId" />
+		<result column="user_name" jdbcType="VARCHAR"
+			property="userName" />
+		<result column="class_name" jdbcType="VARCHAR"
+			property="className" />
+		<result column="method" jdbcType="VARCHAR" property="method" />
+		<result column="succeedd" jdbcType="VARCHAR" property="succeedd" />
+		<result column="ip" jdbcType="VARCHAR" property="ip" />
+		<result column="create_time" jdbcType="TIMESTAMP"
+			property="createTime" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.warmnut.bean.OperationLog">
+		<result column="message" jdbcType="LONGVARCHAR"
+			property="message" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, log_type, log_name, user_id, user_name, class_name, method, succeedd,
+		ip, create_time
+	</sql>
+	<sql id="Blob_Column_List">
+		message
+	</sql>
+
+	<insert id="save" parameterType="com.warmnut.bean.OperationLog">
+		INSERT INTO operation_log ( 
+			log_type, 
+			log_name, 
+			user_id, 
+			user_name,
+			class_name, 
+			method, 
+			succeedd, 
+			message, 
+			ip, 
+			create_time 
+		)VALUES(
+			#{logType},
+			#{logName},
+			#{userId},
+			#{userName},
+			#{className},
+			#{method},
+			#{succeedd},
+			#{message},
+			#{ip},
+			#{createTime}
+		);
+	</insert>
+
+	<!--需要筛选时间范围-->
+	<select id="selectAll" resultMap="ResultMapWithBLOBs"
+			parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List"/>, message
+		from operation_log
+		where 1 = 1
+		<if test="keyword != null and keyword != ''">
+			AND CONCAT_WS(',',log_type,log_name,user_name, class_name, method,succeedd, ip,message)
+			LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+		</if>
+		<!--- 筛选时间 -->
+		<if test="dateFrom!=null and dateFrom != ''">
+			AND create_time between #{dateFrom,jdbcType=VARCHAR} and '2100-01-01 00:00:01'
+		</if>
+		<!--在服务层设置了分页参数，此处不要加结束符';'-->
+	</select>
+
+</mapper>

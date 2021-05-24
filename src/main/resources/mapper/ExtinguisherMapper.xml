@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.warmnut.dao.ExtinguisherMapper">
+    <resultMap id="BaseResultMap" type="com.warmnut.bean.Extinguisher">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="location" jdbcType="VARCHAR" property="location" />
+        <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="inspection_cycle" jdbcType="INTEGER" property="inspectionCycle" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="create_user" jdbcType="INTEGER" property="createUser" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="update_user" jdbcType="INTEGER" property="updateUser" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		id,name,location,expiration_time,status,inspection_cycle,
+		create_time,create_user,update_time,update_user
+	</sql>
+
+    <insert id="insertSelective"
+            parameterType="com.warmnut.bean.Extinguisher">
+        insert into extinguisher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">id,</if>-->
+            <if test="name != null">name,</if>
+            <if test="location != null">location,</if>
+            <if test="expirationTime != null">expiration_time,</if>
+            <if test="status != null">status,</if>
+            <if test="inspectionCycle != null">inspection_cycle,</if>
+            create_time,
+            <if test="createUser != null">create_user,</if>
+            update_time,
+            <if test="updateUser != null">update_user,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">#{id,jdbcType=INTEGER},</if>-->
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="location != null">#{location,jdbcType=VARCHAR},</if>
+            <if test="expirationTime != null">#{expirationTime,jdbcType=TIMESTAMP},</if>
+            <if test="status != null">#{status,jdbcType=INTEGER},</if>
+            <if test="inspectionCycle != null">#{inspectionCycle,jdbcType=INTEGER},</if>
+            CURRENT_TIMESTAMP,
+            <if test="createUser != null">#{createUser,jdbcType=INTEGER},</if>
+            CURRENT_TIMESTAMP,
+            <if test="updateUser != null">#{updateUser,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+		delete from extinguisher
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+    <delete id="deleteAll" parameterType="java.util.List">
+        delete from extinguisher
+        where id in
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.warmnut.bean.Extinguisher">
+        update extinguisher
+        <set>
+            <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
+            <if test="location != null">location=#{location,jdbcType=VARCHAR},</if>
+            <if test="expirationTime != null">expiration_time=#{expirationTime,jdbcType=TIMESTAMP},</if>
+            <if test="status != null">status=#{status,jdbcType=INTEGER},</if>
+            <if test="inspectionCycle != null">inspection_cycle=#{inspectionCycle,jdbcType=INTEGER},</if>
+            update_time=CURRENT_TIMESTAMP,
+            <if test="updateUser != null">update_user=#{updateUser,jdbcType=INTEGER},</if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from extinguisher
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap"
+            parameterType="com.warmnut.util.PageRequest">
+        select
+        <include refid="Base_Column_List"/>
+        from extinguisher
+        where 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND CONCAT_WS(',',name,location,inspection_cycle) LIKE CONCAT('%',#{keyword},'%')
+        </if>
+    </select>
+</mapper>
