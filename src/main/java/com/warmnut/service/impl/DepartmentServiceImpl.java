@@ -1,5 +1,9 @@
 package com.warmnut.service.impl;
 
+import com.warmnut.enumerate.LogSucceed;
+import com.warmnut.log.LogManager;
+import com.warmnut.log.LogTaskFactory;
+import com.warmnut.util.HttpKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,14 +38,26 @@ public class DepartmentServiceImpl implements DepartmentService {
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                // 保存操作日志
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        dept.getCreateUser(), null, "addDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加部门", LogSucceed.SUCCESS, HttpKit.getIp())
+                );
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                // 保存操作日志
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        dept.getCreateUser(), null, "addDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加部门", LogSucceed.FAIL, HttpKit.getIp())
+                );
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            // 保存操作日志
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    dept.getCreateUser(), null, "addDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加部门", LogSucceed.FAIL, HttpKit.getIp())
+            );
         }
         return res;
     }
@@ -54,14 +70,23 @@ public class DepartmentServiceImpl implements DepartmentService {
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("删除部门成功");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除部门", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("不存在对应部门，无法删除");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除部门", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除部门", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }

@@ -41,15 +41,8 @@ public class ExtinguisherServiceImpl implements ExtinguisherService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        extinguisher.getCreateUser(),
-                        "",
-                        "addExtinguisher",
-                        this.getClass().getName(),
-                        new Throwable().getStackTrace()[0].getMethodName(),
-                        "添加灭火器信息",
-                        LogSucceed.SUCCESS,
-                        HttpKit.getIp()
-                ));
+                        extinguisher.getCreateUser(), "", "addExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加灭火器信息", LogSucceed.SUCCESS, HttpKit.getIp()
+                ));// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());

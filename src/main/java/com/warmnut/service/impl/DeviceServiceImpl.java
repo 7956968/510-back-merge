@@ -7,9 +7,12 @@ import com.warmnut.bean.MyCamera;
 import com.warmnut.bean.DeviceStream;
 import com.warmnut.dao.ChannelMapper;
 import com.warmnut.dao.DeviceGroupMapper;
+import com.warmnut.myWebSocket.StreamWebSocket;
 import com.warmnut.util.RtspAddress;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.opencv.presets.opencv_core;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +41,9 @@ import java.util.*;
  */
 @Service("deviceService")
 public class DeviceServiceImpl implements DeviceService{
+
+    // 日志记录器
+    private static final Logger logger = LoggerFactory.getLogger(DeviceServiceImpl.class);
     @Autowired
     private DeviceMapper deviceDao;
     @Autowired
@@ -209,16 +215,33 @@ public class DeviceServiceImpl implements DeviceService{
         List<Map<String, Object>> streamList = new ArrayList<>();
         try{
             List<MyCamera> list = deviceDao.selectAllCameras();
-            for(MyCamera camera:list){ // 迭代每一个摄像头
-                Map<String, Object> map = new HashMap<>();
-                ArrayList<String> rtspList = RtspAddress.concatAddress(camera);
-                for (String rtspAddr : rtspList) { // 迭代每一个rtsp地址
-                    if (isValidStream(rtspAddr)) {
-                        map.put("id", camera.getId());
-                        map.put("stream", rtspList);
-                        streamList.add(map);
-                    } else {
-                        System.out.println("invalid stream, url:" + rtspList);
+            // 迭代每一个摄像头
+            for(MyCamera camera:list){
+                // rtsp地址格式未知，获取所有的拼接形式以尝试进行连接
+                if(camera.getRtspFormat()==null || "".equals(camera.getRtspFormat())){
+                    HashMap<String, ArrayList<String>> AddrForAllFormat = RtspAddress.concatAddressForAllFormat(camera);
+                    // 迭代每一种格式的rtsp地址集，每一个list里面的地址格式相同，仅仅是通道号不同
+                    for (Map.Entry<String, ArrayList<String>> entry: AddrForAllFormat.entrySet()) {
+                        String rtspAddr = entry.getValue().get(0);// 因为只尝试连接，不必每一个通道试一次，只用第一个通道
+                        if (isValidStream(rtspAddr)) {// rtsp格式正确
+                            for(String str: entry.getValue()){
+                                Map<String, Object> tmp = new HashMap<>();// {id:摄像头id, stream:RTSP地址}
+                                tmp.put("id", camera.getId());
+                                tmp.put("stream", str);
+                                streamList.add(tmp);
+                            }
+                            // rtspFormat存入数据库
+                            deviceDao.setRtspFormat(camera.getId(), entry.getKey());
+                            break;
+                        }
+                    }
+                }else{// 已确定rtsp地址格式，可以直接拼接
+                    List<String> rtspList = RtspAddress.concatAddress(camera);
+                    for(String rtspStr: rtspList){
+                        Map<String, Object> tmp = new HashMap<>();// {id:摄像头id, stream:RTSP地址}
+                        tmp.put("id", camera.getId());
+                        tmp.put("stream", rtspStr);
+                        streamList.add(tmp);
                     }
                 }
 
@@ -228,6 +251,7 @@ public class DeviceServiceImpl implements DeviceService{
             result.put("device", streamList);
             return result;
         }catch (Exception e){
+            e.printStackTrace();
             result.put("errorCode",500);
             result.put("errorMsg","未知错误");
             result.put("device", streamList);
@@ -237,8 +261,9 @@ public class DeviceServiceImpl implements DeviceService{
 
     /**
      * 测试是否是有效的流地址
+     * 通过连接摄像头并尝试截取快照，通过此过程成功与否来确定流地址是否有效
      * @param rtspStr 流地址
-     * @return
+     * @return 连接摄像头并截取快照成功 ret true；摄像头未启动，或者地址格式错误 ret false
      */
     public boolean isValidStream(String rtspStr) {
         boolean isValid = false;
@@ -272,7 +297,7 @@ public class DeviceServiceImpl implements DeviceService{
             grabber.stop();
             grabber.close();
             return isValid;
-        }catch(FrameGrabber.Exception e) {
+        }catch(FrameGrabber.Exception e) {// rtsp地址有误，或者摄像头未启动，...
             System.out.println("创建grabber失败, url:"+rtspStr);
             // e.printStackTrace();
             return false;
@@ -401,7 +426,7 @@ public class DeviceServiceImpl implements DeviceService{
     /**
      * 获取联动关系
      * @param params 暂时无意义
-     * @return
+     * @return 被联动的摄像头列表（封装成功状态
      */
     public DataResponse<List<Device>> selectLinkage(Map<String, Object> params) {
         List<Device> deviceList = deviceDao.selectLinkage(params);

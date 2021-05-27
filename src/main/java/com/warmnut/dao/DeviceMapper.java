@@ -30,6 +30,14 @@ public interface DeviceMapper {
 
     int updateByPrimaryKeySelective(Device device);
 
+    /**
+     * 设置设备（摄像头）的rtsp格式对应的值
+     * @param id 摄像头id
+     * @param rtspFormat rtsp格式对应的值
+     * @return 受影响的行数
+     */
+    int setRtspFormat(@Param(value="id")Integer id, @Param(value = "rtspFormat")String rtspFormat);
+
     Device selectById(Integer id);
 
     Page<Device> selectAll(Map<String,Object> params);

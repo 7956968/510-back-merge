@@ -142,6 +142,12 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <update id="setRtspFormat">
+        update device
+        set rtsp_format = #{rtspFormat,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
     <!--通过id查询设备-->
     <select id="selectById" parameterType="java.lang.Integer"
             resultMap="BaseResultMap">
@@ -151,7 +157,7 @@
         where device.id = #{id,jdbcType=INTEGER}
     </select>
 
-    <!--  查询所有设备 -->
+    <!--获取所有设备（分页，类型，关键字） -->
     <select id="selectAll" resultMap="BaseResultMap"
             parameterType="java.util.Map">
         select
@@ -296,6 +302,7 @@
         </foreach>
     </delete>
 
+    <!--获取联动列表-->
     <select id="selectLinkage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List" />

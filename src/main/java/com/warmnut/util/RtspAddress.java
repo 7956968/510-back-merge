@@ -1,16 +1,9 @@
 package com.warmnut.util;
 
 import com.warmnut.bean.Channel;
-import com.warmnut.bean.Device;
-import com.warmnut.bean.DeviceStream;
 import com.warmnut.bean.MyCamera;
-import org.bytedeco.opencv.presets.opencv_core;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author lupincheng
@@ -22,6 +15,8 @@ import java.util.Objects;
  */
 
 public class RtspAddress {
+
+    // 下述的各格式的字符串成员变量暂时不使用，只使用拼接方法concatXXX(camera)
 
     /**
      * 海康威视摄像头地址格式
@@ -43,7 +38,7 @@ public class RtspAddress {
      * port: 端口号默认为554，若为默认可不填写.
      * subtype: 码流类型，主码流为1，辅码流为2，第三码流为3.
      */
-    public static final String HIKVISION_FORMAT_2 =
+    public static final String HIKVISION_NEW_FORMAT =
             "rtsp://[username]:[password]@[ip]:[port]/Streaming/Channels/[subtype]";
 
     /**
@@ -117,7 +112,7 @@ public class RtspAddress {
      * @param camera 带通道的设备实体
      * @return 视频流地址
      */
-    public static ArrayList<String> concatHikVisionAddress2(MyCamera camera){
+    public static ArrayList<String> concatHikVisionNewAddress(MyCamera camera){
         ArrayList<String> rtspList = new ArrayList<>();
         for(Channel channel: camera.getChannels()){
             StringBuilder rtspAddr = new StringBuilder();
@@ -231,7 +226,7 @@ public class RtspAddress {
             case "HIKVISION":
                 return concatHikVisionAddress(camera);
             case "HIKVISION_NEW":
-                return concatHikVisionAddress2(camera);
+                return concatHikVisionNewAddress(camera);
             case "DAHUA":
                 return concatDaHuaAddress(camera);
             case "DLINK":
@@ -241,5 +236,16 @@ public class RtspAddress {
             default:
                 return concatHikVisionAddress(camera);
         }
+    }
+
+
+    public static HashMap<String, ArrayList<String>> concatAddressForAllFormat(MyCamera camera){
+        HashMap<String, ArrayList<String>> res = new HashMap<>();
+        res.put("HIKVISION", concatHikVisionAddress(camera));
+        res.put("HIKVISION_NEW", concatHikVisionNewAddress(camera));
+        res.put("DAHUA", concatDaHuaAddress(camera));
+        res.put("DLINK", concatDLinkAddress(camera));
+        res.put("AXIS", concatAxisAddress(camera));
+        return res;
     }
 }
