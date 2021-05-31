@@ -53,13 +53,6 @@
             #{item, jdbcType=INTEGER}
         </foreach>
         ;
-        delete from device_group_relation
-        where group_id in
-        <foreach collection="idList" item="item" index="index" open="("
-                 separator="," close=")">
-            #{item, jdbcType=INTEGER}
-        </foreach>
-        ;
 	</delete>
 
     <delete id="deleteRelationByDeviceId" parameterType="java.lang.Integer">

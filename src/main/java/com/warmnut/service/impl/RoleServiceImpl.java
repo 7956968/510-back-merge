@@ -1,6 +1,10 @@
 package com.warmnut.service.impl;
 
 import com.warmnut.dao.RolePermissionMapper;
+import com.warmnut.enumerate.LogSucceed;
+import com.warmnut.log.LogManager;
+import com.warmnut.log.LogTaskFactory;
+import com.warmnut.util.HttpKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 添加角色
-     * @param role
+     * @param role 角色
      * @return
      */
     @Override

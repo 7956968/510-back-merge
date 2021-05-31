@@ -132,7 +132,7 @@
         <if test="keyword != null and keyword != ''">
             AND CONCAT_WS(',',job_number, position, name, phone, email) LIKE CONCAT('%',#{keyword},'%')
         </if>
-        <if test="itemStatus!=null">
+        <if test="itemStatus!=null and itemStatus!=''">
             AND item_status = ${itemStatus}
         </if>
     </select>

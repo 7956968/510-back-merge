@@ -1,6 +1,8 @@
 package com.warmnut.myWebSocket;
 
 import com.alibaba.fastjson.JSONObject;
+import com.warmnut.bean.log.AlarmLog;
+import com.warmnut.dao.AlarmLogMapper;
 import com.warmnut.service.DeviceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +11,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.annotation.PostConstruct;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component("StreamWebSocket")
 @EnableScheduling // 启动定时任务
 public class StreamWebSocket {
-    // 日志处理
+    // 日志记录器
     private static final Logger logger = LoggerFactory.getLogger(StreamWebSocket.class);
 
     private static int onlineCount = 0;// 连接数
@@ -37,6 +43,8 @@ public class StreamWebSocket {
 
     private static BrowserWebSocket browserWebSocket;
     private static DeviceService deviceService;
+    private static AlarmLogMapper alarmLogMapper;
+
     @Autowired
     public void setBrowserWebSocket(BrowserWebSocket browserWebSocket){
         StreamWebSocket.browserWebSocket = browserWebSocket;
@@ -44,6 +52,10 @@ public class StreamWebSocket {
     @Autowired
     public void setDeviceService(DeviceService deviceService){
         StreamWebSocket.deviceService = deviceService;
+    }
+    @Autowired
+    public void setAlarmLogMapper(AlarmLogMapper alarmLogMapper){
+        StreamWebSocket.alarmLogMapper = alarmLogMapper;
     }
 
     /**
@@ -98,11 +110,27 @@ public class StreamWebSocket {
             String res = JSONObject.toJSONString(resultObj);
             this.session.getAsyncRemote().sendText(res);
         }else if("alarmMessage".equals(method)){ // 接收到的是发送报警信息
-            String videoId = jsonObj.getString("id");  // 摄像头id
-            String desc = jsonObj.getString("desc");  // 描述
-            jsonObj.put("videoId",videoId);
-            //// 存入报警日志
+            String cameraId = jsonObj.getString("cameraId");  // 摄像头id
+            String alarmId = jsonObj.getString("alarmId");  // 报警设备id
+            String name = jsonObj.getString("name");  // 名称
+            String description = jsonObj.getString("description");  // 描述
+            String location = jsonObj.getString("location");  // 位置
+            String alarmTime = jsonObj.getString("alarmTime");  // 报警时间
+            // String recordTime = jsonObj.getString("recordTime");  // 记录时间
 
+            //// 存入报警日志
+            AlarmLog alarmLog = new AlarmLog();
+            alarmLog.setName(name);
+            alarmLog.setDescription(description);
+            alarmLog.setLocation(location);
+            try{ // 存日期，格式转换
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = simpleDateFormat.parse(alarmTime);
+                alarmLog.setAlarmTime(date);
+            }catch (ParseException e1){
+                logger.error("报警日志设置报警时间异常，报警时间字符串：["+alarmTime+"]");
+            }
+            alarmLogMapper.insertSelective(alarmLog);
             //// 发送至浏览器
             BrowserWebSocket.sendMessageAll(JSONObject.toJSONString(jsonObj));
         }

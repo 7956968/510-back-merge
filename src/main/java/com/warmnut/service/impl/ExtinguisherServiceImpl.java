@@ -41,16 +41,22 @@ public class ExtinguisherServiceImpl implements ExtinguisherService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        extinguisher.getCreateUser(), "", "addExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加灭火器信息", LogSucceed.SUCCESS, HttpKit.getIp()
+                        extinguisher.getCreateUser(), null, "addExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加灭火器信息", LogSucceed.SUCCESS, HttpKit.getIp()
                 ));// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        extinguisher.getCreateUser(), null, "addExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+                ));// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    extinguisher.getCreateUser(), null, "addExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+            ));// 保存操作日志
         }
         return res;
     }
@@ -62,14 +68,23 @@ public class ExtinguisherServiceImpl implements ExtinguisherService {
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("删除灭火器信息成功");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除灭火器信息", LogSucceed.SUCCESS, HttpKit.getIp()
+                ));// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("不存在此灭火器信息，删除失败");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+                ));// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+            ));// 保存操作日志
         }
         return res;
     }
@@ -82,14 +97,23 @@ public class ExtinguisherServiceImpl implements ExtinguisherService {
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("批量删除成功");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除灭火器信息", LogSucceed.SUCCESS, HttpKit.getIp()
+                ));// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("删除失败，未查找到对应的数据");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+                ));// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteAllExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+            ));// 保存操作日志
         }
         return res;
     }
@@ -101,14 +125,23 @@ public class ExtinguisherServiceImpl implements ExtinguisherService {
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "modifyExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改灭火器信息", LogSucceed.SUCCESS, HttpKit.getIp()
+                ));// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg(YgngError.NO_DATA.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "modifyExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+                ));// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "modifyExtinguisher", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改灭火器信息", LogSucceed.FAIL, HttpKit.getIp()
+            ));// 保存操作日志
         }
         return res;
     }

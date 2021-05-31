@@ -46,6 +46,12 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         return res;
     }
 
+    /**
+     * 为角色批量赋予权限
+     * @param roleId 角色id
+     * @param pmsIdList 权限id列表
+     * @return
+     */
     public SimpleResponse addAll(Integer roleId, ArrayList<Integer> pmsIdList) {
         SimpleResponse res = new SimpleResponse();
         try {

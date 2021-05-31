@@ -99,14 +99,23 @@ public class DepartmentServiceImpl implements DepartmentService {
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("批量删除成功");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除部门", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("删除失败，未查找到对应的数据");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除部门", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteAllDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除部门", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -120,14 +129,23 @@ public class DepartmentServiceImpl implements DepartmentService {
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        dept.getUpdateUser(), null, "modifyDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改部门信息", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg(YgngError.NO_DATA.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        dept.getUpdateUser(), null, "modifyDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改部门信息", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    dept.getUpdateUser(), null, "modifyDepartment", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改部门信息", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }

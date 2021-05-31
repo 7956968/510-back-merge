@@ -8,8 +8,8 @@
         <result column="status" jdbcType="VARCHAR" property="status" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="handle_id" jdbcType="INTEGER" property="handleId" />
-        <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" />
-        <result column="alarm_time" jdbcType="TIMESTAMP" property="alarmTime" />
+        <result column="record_time" jdbcType="TIMESTAMP" property="recordTime" javaType="java.util.Date"/>
+        <result column="alarm_time" jdbcType="TIMESTAMP" property="alarmTime" javaType="java.util.Date"/>
     </resultMap>
 
     <resultMap id="AlarmHandleLogMap" type="com.warmnut.bean.log.AlarmHandleLog">
@@ -34,23 +34,22 @@
             parameterType="com.warmnut.bean.log.AlarmLog">
         insert into alarm_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <!--<if test="id != null">id,</if>-->
             <if test="name != null">name,</if>
             <if test="location != null">location,</if>
-            <if test="status != null">status,</if>
+            status,
             <if test="description != null">description,</if>
             <if test="handleId != null">handle_id,</if>
-            <if test="recordTime != null">record_time,</if>
+            record_time,
             <if test="alarmTime != null">alarm_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <!--<if test="id != null">id,</if>-->
             <if test="name != null">#{name,jdbcType=VARCHAR},</if>
             <if test="location != null">#{location,jdbcType=VARCHAR},</if>
-            <if test="status != null">#{status,jdbcType=VARCHAR},</if>
+            '未处理',
             <if test="description != null">#{description,jdbcType=VARCHAR},</if>
             <if test="handleId != null">#{handleId,jdbcType=INTEGER},</if>
             <if test="recordTime != null">#{recordTime,jdbcType=TIMESTAMP},</if>
+            <if test="recordTime == null">CURRENT_TIMESTAMP,</if>
             <if test="alarmTime != null">#{alarmTime,jdbcType=TIMESTAMP},</if>
         </trim>
     </insert>
@@ -90,6 +89,8 @@
         <if test="status!=null and status!=''">
             AND status=#{status,jdbcType=VARCHAR}
         </if>
+        <!-- 逆序 -->
+        order by id desc
         <!--在服务层设置了分页参数，此处不要加结束符';'-->
     </select>
 

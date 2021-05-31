@@ -7,7 +7,11 @@ import com.warmnut.bean.MyCamera;
 import com.warmnut.bean.DeviceStream;
 import com.warmnut.dao.ChannelMapper;
 import com.warmnut.dao.DeviceGroupMapper;
+import com.warmnut.enumerate.LogSucceed;
+import com.warmnut.log.LogManager;
+import com.warmnut.log.LogTaskFactory;
 import com.warmnut.myWebSocket.StreamWebSocket;
+import com.warmnut.util.HttpKit;
 import com.warmnut.util.RtspAddress;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.opencv.presets.opencv_core;
@@ -61,7 +65,7 @@ public class DeviceServiceImpl implements DeviceService{
             int i = deviceDao.insertSelective(device);
             int j = 0;
 
-            // 分配分组, 分组id存在且不为0时才进行
+            // 分配分组, 分组id存在且不为0时执行
             if(i>0 && device.getGroupId()!=null && device.getGroupId()!=0){
                 HashMap<String,Object> data = new HashMap<String, Object>();
                 List<Integer> deviceIdList = new ArrayList<Integer>();
@@ -69,19 +73,27 @@ public class DeviceServiceImpl implements DeviceService{
                 List<Integer> groupIdList = new ArrayList<>();
                 groupIdList.add(device.getGroupId());
                 j = deviceGroupDao.insertRelation(deviceIdList, groupIdList, device.getCreateUser());
-                //// 检查异常
             }
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        device.getCreateUser(), null, "addDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        device.getCreateUser(), null, "addDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    device.getCreateUser(), null, "addDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -98,14 +110,23 @@ public class DeviceServiceImpl implements DeviceService{
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -123,14 +144,23 @@ public class DeviceServiceImpl implements DeviceService{
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("批量删除成功");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("删除失败，未查找到对应的数据");
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteAllDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -148,14 +178,23 @@ public class DeviceServiceImpl implements DeviceService{
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        device.getUpdateUser(), null, "modifyDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        device.getUpdateUser(), null, "modifyDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    device.getUpdateUser(), null, "modifyDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -337,14 +376,23 @@ public class DeviceServiceImpl implements DeviceService{
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        Integer.parseInt((String)params.get("createUser")), null, "addLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        Integer.parseInt((String)params.get("createUser")), null, "addLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    Integer.parseInt((String)params.get("createUser")), null, "addLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -362,14 +410,23 @@ public class DeviceServiceImpl implements DeviceService{
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        (Integer)params.get("createUser"), null, "addAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        (Integer)params.get("createUser"), null, "addAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    (Integer)params.get("createUser"), null, "addAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -387,14 +444,23 @@ public class DeviceServiceImpl implements DeviceService{
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }
@@ -411,14 +477,23 @@ public class DeviceServiceImpl implements DeviceService{
             if(i > 0) {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
+                LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                        null, null, "deleteAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                );// 保存操作日志
             }
         }catch(Exception e) {
             res.setErrorCode(YgngError.UNKNOWN_ERROR.value());
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
+            LogManager.me().executeLog(LogTaskFactory.bussinessLog(
+                    null, null, "deleteAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+            );// 保存操作日志
         }
         return res;
     }

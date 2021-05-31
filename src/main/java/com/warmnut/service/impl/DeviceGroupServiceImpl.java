@@ -161,9 +161,8 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
     }
 
     /**
-     * /////////////////
-     * 测试用，待修改
-     * @param params
+     * 获取分组与它的摄像头设备
+     * @param params 查询参数
      * @return
      */
     public DataResponse<List<DeviceGroup>> selectWithDevices(PageRequest params) {

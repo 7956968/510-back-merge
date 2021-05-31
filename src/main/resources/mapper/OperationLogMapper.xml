@@ -71,6 +71,8 @@
 		<if test="dateFrom!=null and dateFrom != ''">
 			AND create_time between #{dateFrom,jdbcType=VARCHAR} and '2100-01-01 00:00:01'
 		</if>
+		<!-- 逆序 -->
+		order by id desc
 		<!--在服务层设置了分页参数，此处不要加结束符';'-->
 	</select>
 
