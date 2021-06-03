@@ -42,13 +42,13 @@ public class ChannelServiceImpl implements ChannelService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        channel.getCreateUser(), null, "addChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
+                        channel.getCreateUser(), null, "添加摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        channel.getCreateUser(), null, "addChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                        channel.getCreateUser(), null, "添加摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -56,7 +56,7 @@ public class ChannelServiceImpl implements ChannelService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    channel.getCreateUser(), null, "addChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                    channel.getCreateUser(), null, "添加摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -75,13 +75,13 @@ public class ChannelServiceImpl implements ChannelService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "删除摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "删除摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -89,7 +89,7 @@ public class ChannelServiceImpl implements ChannelService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "删除摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -109,13 +109,13 @@ public class ChannelServiceImpl implements ChannelService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("批量删除成功");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "批量删除摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("删除失败，未查找到对应的数据");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "批量删除摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -123,7 +123,7 @@ public class ChannelServiceImpl implements ChannelService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteAllChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "批量删除摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -143,13 +143,13 @@ public class ChannelServiceImpl implements ChannelService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        channel.getUpdateUser(), null, "modifyChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
+                        channel.getUpdateUser(), null, "修改摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改摄像头通道", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        channel.getUpdateUser(), null, "modifyChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                        channel.getUpdateUser(), null, "修改摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -157,7 +157,7 @@ public class ChannelServiceImpl implements ChannelService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    channel.getUpdateUser(), null, "modifyChannel", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
+                    channel.getUpdateUser(), null, "修改摄像头通道", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改摄像头通道", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;

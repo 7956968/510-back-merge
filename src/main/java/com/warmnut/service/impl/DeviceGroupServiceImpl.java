@@ -40,13 +40,13 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        deviceGroup.getCreateUser(), null, "addDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
+                        deviceGroup.getCreateUser(), null, "添加设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        deviceGroup.getCreateUser(), null, "addDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                        deviceGroup.getCreateUser(), null, "添加设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备分组", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -54,7 +54,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    deviceGroup.getCreateUser(), null, "addDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                    deviceGroup.getCreateUser(), null, "添加设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备分组", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -68,13 +68,13 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "删除设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "删除设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -82,7 +82,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "删除设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -96,13 +96,13 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "批量删除设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "批量删除设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -110,7 +110,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteAllDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "批量删除设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备分组", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -125,13 +125,13 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        deviceGroup.getUpdateUser(), null, "updateDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
+                        deviceGroup.getUpdateUser(), null, "修改设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备分组", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        deviceGroup.getUpdateUser(), null, "updateDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                        deviceGroup.getUpdateUser(), null, "修改设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备分组", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -139,7 +139,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    deviceGroup.getUpdateUser(), null, "updateDeviceGroup", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备分组", LogSucceed.FAIL, HttpKit.getIp())
+                    deviceGroup.getUpdateUser(), null, "修改设备分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备分组", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -199,13 +199,13 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        createUser, null, "distributeDevicesToGroups", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "为设备分配分组", LogSucceed.SUCCESS, HttpKit.getIp())
+                        createUser, null, "分配分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "为设备分配分组", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("不存在数据，请刷新后重试");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        createUser, null, "distributeDevicesToGroups", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "为设备分配分组", LogSucceed.FAIL, HttpKit.getIp())
+                        createUser, null, "分配分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "为设备分配分组", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch (Exception e) {
@@ -213,7 +213,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    createUser, null, "distributeDevicesToGroups", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "为设备分配分组", LogSucceed.FAIL, HttpKit.getIp())
+                    createUser, null, "分配分组", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "为设备分配分组", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;

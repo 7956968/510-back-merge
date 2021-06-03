@@ -66,13 +66,13 @@ public class AlarmLogServiceImpl implements AlarmLogService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("删除日志成功");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, "", "deleteAlarmLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除报警日志", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, "", "删除报警日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除报警日志", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("不存在对应日志项");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, "", "deleteAlarmLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
+                        null, "", "删除报警日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -80,7 +80,7 @@ public class AlarmLogServiceImpl implements AlarmLogService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, "", "deleteAlarmLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
+                    null, "", "删除报警日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -95,13 +95,13 @@ public class AlarmLogServiceImpl implements AlarmLogService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("批量删除成功");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllAlarmHandleLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除报警日志", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "批量删除报警日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除报警日志", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("删除失败，未查找到对应的数据");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllAlarmHandleLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "批量删除报警日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -110,7 +110,7 @@ public class AlarmLogServiceImpl implements AlarmLogService{
             e.printStackTrace();
             // 保存操作日志
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteAllAlarmHandleLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "批量删除报警日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除报警日志", LogSucceed.FAIL, HttpKit.getIp())
             );
         }
         return res;
@@ -159,7 +159,7 @@ public class AlarmLogServiceImpl implements AlarmLogService{
         int i = alarmLogDao.insertAlarmHandleLog(alarmHandleLog);
         if(i<1){
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    alarmHandleLog.getUserId(), null, "addAlarmHandleLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "处理报警日志", LogSucceed.FAIL, HttpKit.getIp())
+                    alarmHandleLog.getUserId(), null, "添加报警处理日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "处理报警日志", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
             return new SimpleResponse(YgngError.UNKNOWN_ERROR.value(),"添加处理信息失败");
         }
@@ -167,12 +167,12 @@ public class AlarmLogServiceImpl implements AlarmLogService{
         int j = alarmLogDao.setAlarmLogHandled(alarmLogIdList, alarmHandleLog.getId());
         if(j<=0){
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    alarmHandleLog.getUserId(), null, "addAlarmHandleLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "处理报警日志", LogSucceed.FAIL, HttpKit.getIp())
+                    alarmHandleLog.getUserId(), null, "添加报警处理日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "处理报警日志", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
             return new SimpleResponse(YgngError.UNKNOWN_ERROR.value(),"设置报警日志为\"已处理\"失败");
         }
         LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                alarmHandleLog.getUserId(), null, "addAlarmHandleLog", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "处理报警日志", LogSucceed.SUCCESS, HttpKit.getIp())
+                alarmHandleLog.getUserId(), null, "添加报警处理日志", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "处理报警日志", LogSucceed.SUCCESS, HttpKit.getIp())
         );// 保存操作日志
         return new SimpleResponse(YgngError.SUCCESS.value(),"添加处理信息成功");
     }

@@ -78,13 +78,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        device.getCreateUser(), null, "addDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                        device.getCreateUser(), null, "添加设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        device.getCreateUser(), null, "addDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.FAIL, HttpKit.getIp())
+                        device.getCreateUser(), null, "添加设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -92,7 +92,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    device.getCreateUser(), null, "addDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.FAIL, HttpKit.getIp())
+                    device.getCreateUser(), null, "添加设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加设备", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -111,13 +111,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "删除设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "删除设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -125,7 +125,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "删除设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除设备", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -145,13 +145,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg("批量删除成功");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "批量删除设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.NO_DATA.value());
                 res.setErrorMsg("删除失败，未查找到对应的数据");
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "批量删除设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -159,7 +159,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteAllDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "批量删除设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除设备", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -179,13 +179,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        device.getUpdateUser(), null, "modifyDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.SUCCESS, HttpKit.getIp())
+                        device.getUpdateUser(), null, "修改设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        device.getUpdateUser(), null, "modifyDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.FAIL, HttpKit.getIp())
+                        device.getUpdateUser(), null, "修改设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -193,7 +193,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    device.getUpdateUser(), null, "modifyDevice", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.FAIL, HttpKit.getIp())
+                    device.getUpdateUser(), null, "修改设备", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "修改设备", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -261,7 +261,7 @@ public class DeviceServiceImpl implements DeviceService{
                     HashMap<String, ArrayList<String>> AddrForAllFormat = RtspAddress.concatAddressForAllFormat(camera);
                     // 迭代每一种格式的rtsp地址集，每一个list里面的地址格式相同，仅仅是通道号不同
                     for (Map.Entry<String, ArrayList<String>> entry: AddrForAllFormat.entrySet()) {
-                        String rtspAddr = entry.getValue().get(0);// 因为只尝试连接，不必每一个通道试一次，只用第一个通道
+                        String rtspAddr = entry.getValue().get(0);// 因为只尝试连接，不必每一个通道试一次，只用第一个通道（下标0）
                         if (isValidStream(rtspAddr)) {// rtsp格式正确
                             for(String str: entry.getValue()){
                                 Map<String, Object> tmp = new HashMap<>();// {id:摄像头id, stream:RTSP地址}
@@ -377,13 +377,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        Integer.parseInt((String)params.get("createUser")), null, "addLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                        Integer.parseInt((String)params.get("createUser")), null, "添加联动摄像头", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        Integer.parseInt((String)params.get("createUser")), null, "addLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                        Integer.parseInt((String)params.get("createUser")), null, "添加联动摄像头", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -391,7 +391,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    Integer.parseInt((String)params.get("createUser")), null, "addLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                    Integer.parseInt((String)params.get("createUser")), null, "添加联动摄像头", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -411,13 +411,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        (Integer)params.get("createUser"), null, "addAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                        (Integer)params.get("createUser"), null, "批量添加联动摄像头", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        (Integer)params.get("createUser"), null, "addAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                        (Integer)params.get("createUser"), null, "批量添加联动摄像头", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -425,7 +425,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    (Integer)params.get("createUser"), null, "addAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                    (Integer)params.get("createUser"), null, "批量添加联动摄像头", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量添加联动关系", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -445,13 +445,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "取消联动", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "取消联动", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -459,7 +459,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "取消联动", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
@@ -478,13 +478,13 @@ public class DeviceServiceImpl implements DeviceService{
                 res.setErrorCode(YgngError.SUCCESS.value());
                 res.setErrorMsg(YgngError.SUCCESS.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
+                        null, null, "批量取消联动", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.SUCCESS, HttpKit.getIp())
                 );// 保存操作日志
             }else {
                 res.setErrorCode(YgngError.PARAM_ERROR.value());
                 res.setErrorMsg(YgngError.PARAM_ERROR.getReasonPhrase());
                 LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                        null, null, "deleteAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                        null, null, "批量取消联动", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
                 );// 保存操作日志
             }
         }catch(Exception e) {
@@ -492,7 +492,7 @@ public class DeviceServiceImpl implements DeviceService{
             res.setErrorMsg(YgngError.UNKNOWN_ERROR.getReasonPhrase());
             e.printStackTrace();
             LogManager.me().executeLog(LogTaskFactory.bussinessLog(
-                    null, null, "deleteAllLinkage", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
+                    null, null, "批量取消联动", this.getClass().getName(), new Throwable().getStackTrace()[0].getMethodName(), "批量删除联动关系", LogSucceed.FAIL, HttpKit.getIp())
             );// 保存操作日志
         }
         return res;
