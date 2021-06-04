@@ -76,4 +76,20 @@
 		<!--在服务层设置了分页参数，此处不要加结束符';'-->
 	</select>
 
+	<!--删除-->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from operation_log
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+
+	<!--批量删除-->
+	<delete id="deleteAll" parameterType="java.util.List">
+		delete from operation_log
+		where id in
+		<foreach collection="list" item="item" index="index"
+				 open="(" close=")" separator=",">
+			#{item,jdbcType=INTEGER}
+		</foreach>
+	</delete>
 </mapper>
