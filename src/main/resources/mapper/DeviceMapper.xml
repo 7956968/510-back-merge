@@ -157,13 +157,13 @@
         where device.id = #{id,jdbcType=INTEGER}
     </select>
 
-    <!--获取所有设备（分页，类型，关键字） -->
+    <!--获取所有设备（类型，关键字） -->
     <select id="selectAll" resultMap="BaseResultMap"
             parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
         from device
-        <if test="groupId != null">
+        <if test="groupId != null and groupId != ''">
             join device_group_relation dgr
             on(device.id=dgr.device_id and dgr.group_id=#{groupId})
         </if>
@@ -186,8 +186,13 @@
         ,channel.serial_number as channel_serial_number
         ,channel.number as channel_number
         from device
-        inner join channel
+        left join channel
         on channel.device_id = device.id
+        <if test="groupId != null and groupId != ''">
+            join device_group_relation dgr
+            on(device.id=dgr.device_id and dgr.group_id=#{groupId})
+        </if>
+        where `type` = 'camera'
     </select>
 
     <!--通过idList查找摄像头-->
@@ -199,17 +204,17 @@
         ,channel.serial_number as channel_serial_number
         ,channel.number as channel_number
         from device
-        inner join channel
+        left join channel
         on channel.device_id = device.id
         where device.id in
         <foreach collection="idList" item="item" index="index"
                  open="(" close=")" separator=",">
             #{item,jdbcType=INTEGER}
         </foreach>
-
+        and `type` = 'camera'
     </select>
 
-    <!--通过idList查找摄像头-->
+    <!--通过报警设备的id查找它联动的摄像头-->
     <select id="selectCamerasByAlarmId" resultMap="CameraResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -218,11 +223,12 @@
         ,channel.serial_number as channel_serial_number
         ,channel.number as channel_number
         from device
-        inner join channel
+        left join channel
         on channel.device_id = device.id
         inner join device_linkage
         on device.id = device_linkage.device_id
         where device_linkage.alarm_id = #{alarmId,jdbcType=INTEGER}
+        and `type` = 'camera'
     </select>
 
     <!--查找不在分组中的设备-->

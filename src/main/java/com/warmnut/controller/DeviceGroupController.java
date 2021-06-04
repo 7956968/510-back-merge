@@ -57,8 +57,8 @@ public class DeviceGroupController {
 
     /**
      * 修改分组（分组名|父分组）
-     * @param deviceGroup
-     * @return
+     * @param deviceGroup 分组
+     * @return 操作结果
      */
     @PostMapping("update_by_id")
     public SimpleResponse updateById(DeviceGroup deviceGroup){
@@ -68,7 +68,7 @@ public class DeviceGroupController {
     /**
      * 关键字查询分组
      * @param params （暂时无意义，以后可能通过关键词查询）
-     * @return
+     * @return 分组列表
      */
     @GetMapping("select")
     public DataResponse<List<DeviceGroup>> selectAll(PageRequest params){
@@ -88,8 +88,9 @@ public class DeviceGroupController {
 
     /**
      * 关键字查询分组，包括分组所有的设备
-     * @param params
-     * @return
+     * 不包括默认分组（id=0）以及不在分组中的设备
+     * @param params 暂时无意义，后续考虑添加筛选参数
+     * @return 带摄像头的分组列表
      */
     @GetMapping("select_with_devices")
     public DataResponse<List<DeviceGroup>> selectWithDevices(PageRequest params){

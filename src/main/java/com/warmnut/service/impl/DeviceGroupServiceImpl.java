@@ -167,13 +167,13 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
      */
     public DataResponse<List<DeviceGroup>> selectWithDevices(PageRequest params) {
         List<DeviceGroup> deviceGroupList = deviceGroupDao.selectAll(params);
-        for(int i = 0; i<deviceGroupList.size(); i++){
-            HashMap<String,Object> map = new HashMap<String, Object>();
-            map.put("groupId",deviceGroupList.get(i).getId());
-            map.put("type","camera");
-            deviceGroupList.get(i).setDeviceList((ArrayList<Device>) deviceDao.selectAll(map));
+        for (DeviceGroup deviceGroup : deviceGroupList) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("groupId", deviceGroup.getId());
+            map.put("type", "camera");
+            deviceGroup.setDeviceList( deviceDao.selectAllCameras(map));
         }
-        return new DataResponse<List<DeviceGroup>>(YgngError.SUCCESS.value(), "查询成功", deviceGroupList);
+        return new DataResponse<>(YgngError.SUCCESS.value(), "查询成功", deviceGroupList);
     }
 
     /**

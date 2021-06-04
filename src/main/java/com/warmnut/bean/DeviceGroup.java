@@ -23,7 +23,7 @@ public class DeviceGroup {
     private Date updateTime;
     private Integer updateUser; // 修改者id
 
-    private ArrayList<Device> deviceList;   // 设备列表
+    private ArrayList<MyCamera> deviceList;   // 设备列表
 
     public DeviceGroup() {
         this.createTime = new Date();
@@ -86,11 +86,11 @@ public class DeviceGroup {
         this.updateUser = updateUser;
     }
 
-    public ArrayList<Device> getDeviceList() {
+    public ArrayList<MyCamera> getDeviceList() {
         return deviceList;
     }
 
-    public void setDeviceList(ArrayList<Device> deviceList) {
+    public void setDeviceList(ArrayList<MyCamera> deviceList) {
         this.deviceList = deviceList;
     }
 }

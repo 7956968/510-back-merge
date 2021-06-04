@@ -8,10 +8,10 @@ import java.util.List;
  * 带通道的摄像头设备，为了避免和别的包中的Camera类重名，命名为MyCamera
  */
 
-public class MyCamera extends Device{
+public class MyCamera extends com.warmnut.bean.Device {
     List<Channel> channels;
 
-    MyCamera(){
+    public MyCamera(){
 
     }
 

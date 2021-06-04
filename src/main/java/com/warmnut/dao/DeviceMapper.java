@@ -3,8 +3,6 @@ package com.warmnut.dao;
 import com.github.pagehelper.Page;
 import com.warmnut.bean.MyCamera;
 import com.warmnut.bean.Device;
-import com.warmnut.bean.DeviceStream;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +47,7 @@ public interface DeviceMapper {
      * 一次性获取所有摄像头太消耗时间，后续需要修改
      * @return 摄像头列表
      */
-    List<MyCamera> selectAllCameras();
+    ArrayList<MyCamera> selectAllCameras(Map<String,Object> params);
 
     List<MyCamera> selectCameras(@Param(value="idList")ArrayList<Integer> idList);
 

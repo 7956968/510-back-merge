@@ -4,17 +4,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.warmnut.bean.MyCamera;
-import com.warmnut.bean.DeviceStream;
-import com.warmnut.dao.ChannelMapper;
 import com.warmnut.dao.DeviceGroupMapper;
 import com.warmnut.enumerate.LogSucceed;
 import com.warmnut.log.LogManager;
 import com.warmnut.log.LogTaskFactory;
-import com.warmnut.myWebSocket.StreamWebSocket;
 import com.warmnut.util.HttpKit;
 import com.warmnut.util.RtspAddress;
 import org.bytedeco.javacv.Frame;
-import org.bytedeco.opencv.presets.opencv_core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -253,7 +249,7 @@ public class DeviceServiceImpl implements DeviceService{
         Map<String, Object> result=new HashMap<>();
         List<Map<String, Object>> streamList = new ArrayList<>();
         try{
-            List<MyCamera> list = deviceDao.selectAllCameras();
+            List<MyCamera> list = deviceDao.selectAllCameras(null);
             // 迭代每一个摄像头
             for(MyCamera camera:list){
                 // rtsp地址格式未知，获取所有的拼接形式以尝试进行连接
@@ -261,6 +257,7 @@ public class DeviceServiceImpl implements DeviceService{
                     HashMap<String, ArrayList<String>> AddrForAllFormat = RtspAddress.concatAddressForAllFormat(camera);
                     // 迭代每一种格式的rtsp地址集，每一个list里面的地址格式相同，仅仅是通道号不同
                     for (Map.Entry<String, ArrayList<String>> entry: AddrForAllFormat.entrySet()) {
+                        if(entry.getValue().size()==0) continue;
                         String rtspAddr = entry.getValue().get(0);// 因为只尝试连接，不必每一个通道试一次，只用第一个通道（下标0）
                         if (isValidStream(rtspAddr)) {// rtsp格式正确
                             for(String str: entry.getValue()){
